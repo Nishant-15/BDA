@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-data=pd.read_csv("facebook.csv")
+data=pd.read_csv("facebook.csv", encoding= 'unicode_escape')
 #print(data)
 
 #print(data.tail(10))
@@ -19,7 +19,7 @@ female_gender=lg.count("female")
 
 gender=['male','female']
 cgender=[male_gender,female_gender]
-plt.bar(gender,cgender,label="gender")
+plt.bar(gender,cgender,color=['orange','blue','green','yellow','red'],align = 'center',label="gender")
 plt.title("Number of users")
 plt.xlabel('Genders')
 plt.ylabel('count')
@@ -38,7 +38,7 @@ for i in range(0,100):
 #print(lc,la)
 
 x=np.arange(len(la))
-plt.bar(lc,la,label="count")
+plt.bar(lc,la,label="count",color=['orange','blue','green','yellow','red'],align = 'center')
 plt.xticks(x,lc,label="Age")
 plt.title("Age Classification")
 plt.xlabel('age')
@@ -57,8 +57,6 @@ plt.gcf().subplots_adjust(left=margin, right=1.-margin)
 plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])
 plt.show()
 
-# who got more likes 
-
 d1=data[data.age<15]
 #print(d1['userid'])
 
@@ -66,9 +64,19 @@ age_15=data['userid']
 print(len(age_15))
 
 # filter by city
-dc=data['city']
-lcity=dc['city'].tolist()
-print(lcity)
+dc=data['city'].tolist()
+sdc=set(dc)
+loc=[]
+sdc=list(sdc)
+for i in sdc:
+	loc.append(dc.count(i))
+x=np.arange(len(loc))
+plt.plot(sdc,loc,label="city")
+plt.xticks(x,sdc,rotation=90,label="city")
+plt.title("City wise Classification")
+plt.xlabel('city')
+plt.ylabel('count')
+plt.show()
 
 """lc=list()
 
@@ -81,7 +89,7 @@ for i in range(0,100):
 #print(lc,la)
 
 x=np.arange(len(la))
-plt.bar(lc,la,label="count")
+plt.bar(lc,la,label="count",color=['orange','blue','green','yellow','red'],align = 'center')
 plt.xticks(x,lc,label="Age")
 plt.title("Age Classification")
 plt.xlabel('age')
@@ -101,9 +109,62 @@ plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1])
 plt.show()"""
 
 
-# filter by mobile user
+# top five users with maximum friends
+dc=data['friend_count'].tolist()
+dc.sort(reverse=True)
+maxfc=[]
+uid=['2090699',
+'1660276',
+'1926655',
+'1685573',
+'1386477'
+]
+for i in range(5):
+	maxfc.append(max(dc))
+	dc.remove(max(dc))
+
+
+	
+x=np.arange(len(maxfc))
+plt.plot(uid,maxfc,label="likes")
+plt.xticks(x,uid,rotation=90,label="uid")
+plt.title("top five user with maximum friends")
+plt.xlabel('UserId')
+plt.ylabel('count')
+plt.show()
 
 # filter by windows user
 
 # filter by most likes
- 
+dc=data['likes_received'].tolist()
+dc.sort(reverse=True)
+maxfc=[]
+uid=['1674584',
+'1441676',
+'1715925',
+'2063006',
+'1053087'
+]
+for i in range(5):
+	maxfc.append(max(dc))
+	dc.remove(max(dc))
+
+
+	
+x=np.arange(len(maxfc))
+plt.bar(uid,maxfc,label="Likes count",color=['orange','blue','green','yellow','red'],align = 'center')
+plt.xticks(x,uid,rotation=90,label="User Id")
+plt.title("top five user with maximum likes")
+plt.xlabel('UserId')
+plt.ylabel('count')
+plt.legend(shadow=True)
+plt.show() 
+
+"""
+#fake acount detection
+
+dc=d1=data[data.age>85]
+l1=d1['age'].tolist()
+lc=list()
+la=list()
+print(len(l1))"""
